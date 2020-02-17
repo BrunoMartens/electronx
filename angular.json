@@ -13,8 +13,11 @@
       "prefix": "electronx",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
+            "customWebpackConfig": {
+              "path": "./extra-webpack.config.js"
+            },
             "outputPath": "dist/apps/analyzer",
             "index": "apps/analyzer/src/index.html",
             "main": "apps/analyzer/src/main.ts",
@@ -25,7 +28,9 @@
               "apps/analyzer/src/favicon.ico",
               "apps/analyzer/src/assets"
             ],
-            "styles": ["apps/analyzer/src/styles.scss"],
+            "styles": [
+              "apps/analyzer/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -60,7 +65,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
             "browserTarget": "analyzer:build"
           },
@@ -83,7 +88,10 @@
               "apps/analyzer/tsconfig.app.json",
               "apps/analyzer/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/analyzer/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/analyzer/**"
+            ]
           }
         },
         "test": {
@@ -118,8 +126,81 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/analyzer-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/analyzer-e2e/**"]
+            "tsConfig": [
+              "apps/analyzer-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/analyzer-e2e/**"
+            ]
+          }
+        }
+      }
+    },
+    "analyzer-host": {
+      "root": "apps/analyzer-host",
+      "sourceRoot": "apps/analyzer-host/src",
+      "projectType": "application",
+      "prefix": "analyzer-host",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "nx-electron:build",
+          "options": {
+            "outputPath": "dist/apps/analyzer-host",
+            "main": "apps/analyzer-host/src/main.ts",
+            "tsConfig": "apps/analyzer-host/tsconfig.app.json",
+            "assets": [
+              "apps/analyzer-host/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/analyzer-host/src/environments/environment.ts",
+                  "with": "apps/analyzer-host/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "nx-electron:execute",
+          "options": {
+            "buildTarget": "analyzer-host:build"
+          }
+        },
+        "package": {
+          "builder": "nx-electron:package",
+          "options": {
+            "name": "analyzer-host",
+            "frontendProject": "analyzer",
+            "out": "dist/packages"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/analyzer-host/tsconfig.app.json",
+              "apps/analyzer-host/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/analyzer-host/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/analyzer-host/jest.config.js",
+            "tsConfig": "apps/analyzer-host/tsconfig.spec.json",
+            "passWithNoTests": true
           }
         }
       }

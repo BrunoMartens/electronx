@@ -16,7 +16,12 @@
     },
     "analyzer-e2e": {
       "tags": [],
-      "implicitDependencies": ["analyzer"]
+      "implicitDependencies": [
+        "analyzer"
+      ]
+    },
+    "analyzer-host": {
+      "tags": []
     }
   }
 }
