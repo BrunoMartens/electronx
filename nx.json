@@ -1,0 +1,22 @@
+{
+  "npmScope": "electronx",
+  "implicitDependencies": {
+    "angular.json": "*",
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    "tsconfig.json": "*",
+    "tslint.json": "*",
+    "nx.json": "*"
+  },
+  "projects": {
+    "analyzer": {
+      "tags": []
+    },
+    "analyzer-e2e": {
+      "tags": [],
+      "implicitDependencies": ["analyzer"]
+    }
+  }
+}
