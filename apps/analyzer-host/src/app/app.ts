@@ -1,4 +1,4 @@
-import { BrowserWindow, shell, ipcMain } from 'electron';
+import { BrowserWindow, shell, ipcMain, globalShortcut } from 'electron';
 import { rendererAppName } from './constants';
 import { join } from 'path';
 import { format } from 'url';
@@ -124,6 +124,8 @@ export default class App {
         // Electron.BrowserWindow into this function 
         // so this class has no dependencies. This 
         // makes the code easier to write tests for 
+       
+
         App.BrowserWindow = browserWindow;
         App.application = app;
 
